@@ -37,7 +37,7 @@ public class Commit__1 {
      * 
      */
     @JsonProperty("author")
-    private Object author;
+    private Author author;
     /**
      * 
      * (Required)
@@ -74,8 +74,6 @@ public class Commit__1 {
      */
     @JsonProperty("verification")
     private Verification verification;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     /**
      * 
@@ -103,7 +101,7 @@ public class Commit__1 {
      * 
      */
     @JsonProperty("author")
-    public Object getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
@@ -113,7 +111,7 @@ public class Commit__1 {
      * 
      */
     @JsonProperty("author")
-    public void setAuthor(Object author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 
@@ -219,14 +217,5 @@ public class Commit__1 {
         this.verification = verification;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
 
 }
