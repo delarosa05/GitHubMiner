@@ -5,9 +5,7 @@ import Models.GitMiner.IssueGM;
 import Models.GitMiner.ProjectGM;
 import Models.Projects.Project;
 import Parsers.CommitParser;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.ArrayList;
@@ -20,9 +18,14 @@ public class ProjectController {
     public Project getProject(String owner, String repo) { return Services.ProjectService.getProject(owner, repo); }
 
     @PostMapping("/{owner}/{repo}")
-    public ProjectGM postProject(String owner, String repo) {
+    public ProjectGM postProject(@PathVariable String owner,
+                                 @PathVariable String repo,
+                                 @RequestParam(defaultValue = "2") int sinceCommits,
+                                 @RequestParam(defaultValue = "20") int sinceIssues,
+                                 @RequestParam(defaultValue = "2") int maxPages) {
+
         Project request = getProject(owner, repo);
-        List<CommitGM> commitGMS = CommitParser.parseCommit(owner, repo);
+        List<CommitGM> commitGMS = CommitParser.parseCommit(owner, repo, sinceCommits);
         List<IssueGM> issueGMS = new ArrayList<>();
 
 

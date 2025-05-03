@@ -7,6 +7,7 @@ public class CommentGM {
     private String updated_at;
     private UserGM author;
 
+
     public CommentGM(String id, String body, String created_at, String updated_at, UserGM author) {
         this.id = id;
         this.body = body;

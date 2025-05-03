@@ -9,6 +9,7 @@ public class IssueParser {
 
     public static List<IssueGM> parseIssue(String owner, String repo){
         List<IssueGM> issues = new ArrayList<IssueGM>();
-        for (Issue )
+        //for (Issue )
+        return issues;
     }
 }

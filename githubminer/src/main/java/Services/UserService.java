@@ -13,7 +13,7 @@ public class UserService {
     public static String url = "http://api.github.com/";
 
 
-    public User getUser(String username) {
+    public static User getUser(String username) {
         return restTemplate.exchange(url + username, HttpMethod.GET, null, User.class).getBody();
     }
 
