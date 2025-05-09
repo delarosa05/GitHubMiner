@@ -11,7 +11,13 @@ public class ProjectGM {
     private List<CommitGM> commits;
     private List<IssueGM> issues;
 
-    public ProjectGM(int id, String name, String web_url) {}
+    public ProjectGM(int id, String name, String web_url, List<CommitGM> commits, List<IssueGM> issues)  {
+        this.id = id;
+        this.name = name;
+        this.web_url = web_url;
+        this.commits = commits;
+        this.issues = issues;
+    }
 
     public int getId() { return id; }
     public String getName() { return name; }
