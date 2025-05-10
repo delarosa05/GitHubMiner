@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Label {
 
     @JsonProperty("id")
-    private Integer id;
+    private String id;
     @JsonProperty("node_id")
     private String nodeId;
     @JsonProperty("url")
@@ -40,12 +40,12 @@ public class Label {
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     @JsonProperty("id")
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -117,6 +117,20 @@ public class Label {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Label{" +
+                "id='" + id + '\'' +
+                ", node_id='" + nodeId + '\'' +
+                ", url='" + url + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", color='" + color + '\'' +
+                ", default=" + _default +
+                '}';
     }
 
 }

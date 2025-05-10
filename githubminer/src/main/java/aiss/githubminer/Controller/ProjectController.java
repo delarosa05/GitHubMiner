@@ -47,13 +47,12 @@ public class ProjectController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error parsing commits", e);
         }
         // Asegurarse de que los issues sean obtenidos correctamente
-        // Issues, comments e Users se OBTIENEN CORRECTAMENTE
         List<IssueGM> issueGMS;
         try {
             issueGMS = IssueParser.parseIssue(owner, repo, sinceIssues);
             System.out.println("Issues = " + issueGMS);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error parsing issues", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error parsing issues", e);
         }
 
         // Crear y devolver el ProjectGM con datos válidos

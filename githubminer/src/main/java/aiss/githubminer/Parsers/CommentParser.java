@@ -16,7 +16,7 @@ public class CommentParser {
         Comment[] allComments = CommentService.getAllCommentsIssue(owner, repo, issueNumber);
         System.out.println("Numero de comentarios= " + allComments.length); //Aqui llega
         // Verificar si allComments es null o vacío
-        if (allComments.length == 0){
+        if (allComments.length == 0) {
             return comments;
         }else {
             for (Comment comment : allComments) {

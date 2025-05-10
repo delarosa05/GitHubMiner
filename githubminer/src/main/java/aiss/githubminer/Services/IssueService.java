@@ -1,5 +1,6 @@
 package aiss.githubminer.Services;
 
+import aiss.githubminer.Models.Reactions.Comment;
 import aiss.githubminer.Models.Commits.Commit;
 import aiss.githubminer.Models.Issues.Issue;
 import org.springframework.http.HttpEntity;
@@ -19,7 +20,14 @@ public class IssueService {
         headers.set("Authorization", "Bearer " + token);
         HttpEntity<String> request = new HttpEntity<String>(null, headers);
         ResponseEntity<Issue[]> response = restTemplate.exchange(url + owner + "/" + repo + "/issues", HttpMethod.GET, request, Issue[].class);
-        System.out.println(response.getBody());
+        return response.getBody();
+    }
+
+    public static Comment[] getIssueReactions(String owner, String repo, Integer id) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+        HttpEntity<String> request = new HttpEntity<String>(null, headers);
+        ResponseEntity<Comment[]> response = restTemplate.exchange(url + owner + "/" + repo + "/issues/" + id + "/reactions", HttpMethod.GET, request, Comment[].class);
         return response.getBody();
     }
 

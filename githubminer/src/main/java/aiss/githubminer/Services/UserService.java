@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 public class UserService {
 
     public static RestTemplate restTemplate = new RestTemplate();
-    public static String url = "https://api.github.com/";
+    public static String url = "https://api.github.com/users/";
 
 
     public static User getUser(String username) {
@@ -23,16 +23,4 @@ public class UserService {
         return response.getBody();
     }
 
-    //ESTA OPERACION NO SE SI HAY QUE INCLUIRLA
-    public User getAuthenticatedUser(String token) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer" + token);
-        HttpEntity<User> request = new HttpEntity<>(null, headers);
-        ResponseEntity<User> response = restTemplate.exchange(url, HttpMethod.GET, request, User.class);
-        return response.getBody();
-    }
-
-    public User[] getUsers() {
-        return restTemplate.exchange(url + "users", HttpMethod.GET, null, User[].class).getBody();
-    }
 }

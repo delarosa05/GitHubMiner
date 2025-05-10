@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Comment {
 
     @JsonProperty("id")
-    private Integer id;
+    private String id;
     @JsonProperty("node_id")
     private String nodeId;
     @JsonProperty("url")
@@ -49,12 +49,12 @@ public class Comment {
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
     @JsonProperty("id")
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

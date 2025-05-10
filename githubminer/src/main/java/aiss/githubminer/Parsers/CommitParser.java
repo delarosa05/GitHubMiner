@@ -21,7 +21,6 @@ public class CommitParser {
         System.out.println("Number of commits fetched: " + commits.length);
 
         for (Commit commit : commits) {
-            System.out.println("Commit: " + commit);  // Muestra cada commit
 
             String authored_date = commit.getCommit().getAuthor() != null ? commit.getCommit().getAuthor().getDate() : "";
             if (authored_date.isEmpty()) {

@@ -8,6 +8,8 @@ import aiss.githubminer.Models.Issues.Label;
 import aiss.githubminer.Services.IssueService;
 
 import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,32 +21,38 @@ public class IssueParser {
 
 
     public static List<IssueGM> parseIssue(String owner, String repo, int sinceDays) {
-        // Establecer el valor por defecto de 'sinceDays' en 20 si no se pasa un valor válido
-        if (sinceDays <= 0) {
-            sinceDays = 20;
-        }
 
         List<IssueGM> issues = new ArrayList<>();
-        Issue[] allIssues = IssueService.getIssues(owner, repo);
-        // USADO PARA DEPURAR System.out.println("Numero de Issues:" + allIssues.length);
+        try{
+            Issue[] allIssues = IssueService.getIssues(owner, repo);
+            ZonedDateTime limite = ZonedDateTime.now(ZoneOffset.UTC).minusDays(sinceDays);  // Usamos UTC aquí
 
-        // Verificar si allIssues es null o vacío
-        if (allIssues == null || allIssues.length == 0) {
-            System.out.println("No se encontraron issues.");
-            return issues;
-        }
+            // Verificar si allIssues es null o vacío
+            if (allIssues == null || allIssues.length == 0) {
+                System.out.println("No se encontraron issues.");
+                return issues;
+            }
 
-        //  fecha actual menos 'sinceDays'
-        LocalDate limitDate = LocalDate.now().minusDays(sinceDays);
+            //  fecha actual menos 'sinceDays'
+            LocalDate limitDate = LocalDate.now().minusDays(sinceDays);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
-        String limitDateString = limitDate.format(formatter);
+            DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
+            String limitDateString = limitDate.format(formatter);
 
-        for (Issue issue : allIssues) {
-            String updated_at = issue.getUpdatedAt();  // Fecha de última actualización
+            for (Issue issue : allIssues) {
+                String updated_at = issue.getUpdatedAt();  // Fecha de última actualización
 
-            // Comparar si la fecha de actualización del issue es posterior a 'limitDateString'
-            if (updated_at != null && updated_at.compareTo(limitDateString) >= 0) {
+                ZonedDateTime updatedDate = ZonedDateTime.parse(updated_at, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+                updatedDate = updatedDate.withZoneSameInstant(ZoneOffset.UTC);  // Convertir commitDate a UTC
+
+                System.out.println("Updated Date: " + updatedDate + " | Limit date: " + limite);
+
+                // Filtrar commits antiguos
+                if (updatedDate.isBefore(limite)) {
+                    continue;  // Si el commit es anterior a la fecha límite, lo ignoramos
+                }
+
+                // Comparar si la fecha de actualización del issue es posterior a 'limitDateString'
                 String id = issue.getNodeId();
                 String title = issue.getTitle();
                 String description = (issue.getBody() != null) ? issue.getBody() : "";  // Verificación para el campo 'body'
@@ -60,9 +68,8 @@ public class IssueParser {
                 // Usamos el número del issue para obtener sus comentarios
                 int issueNumber = issue.getNumber();
                 List<CommentGM> comments = CommentParser.parseComment(owner, repo, issueNumber);
-                System.out.println(comments);
 
-                Integer votes = 1;  // CAMBIAR PARA OBTENER VOTOS DE VERDAD
+                Integer votes = ParseReaction.parseReaction(owner,repo,issueNumber);  // CAMBIAR PARA OBTENER VOTOS DE VERDAD
 
                 UserGM author = (issue.getUser() != null) ? UserParser.parseUser(issue.getUser()) : null;
                 UserGM assignee = (issue.getAssignee() != null) ? UserParser.parseAsignee(issue.getAssignee()) : null;
@@ -71,11 +78,15 @@ public class IssueParser {
                         id, title, description, state, created_at, updated_at, closed_at, labels, votes, comments, author, assignee
                 );
                 issues.add(res);
-            }
-        }
 
-        System.out.println(issues);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // USADO PARA DEPURARSystem.out.println("Numero de Issues:" + allIssues.length);
         return issues;
+
     }
 
 
