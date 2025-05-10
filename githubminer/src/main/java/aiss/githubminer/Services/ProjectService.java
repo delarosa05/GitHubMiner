@@ -1,6 +1,7 @@
 package aiss.githubminer.Services;
 
 import aiss.githubminer.Models.Commits.Commit;
+import aiss.githubminer.Models.GitMiner.ProjectGM;
 import aiss.githubminer.Models.Projects.Project;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -24,4 +25,10 @@ public class ProjectService {
     }
 
     //incluir funcion post a la API de gitMiner
+
+    public static ProjectGM postProject(ProjectGM project) {
+        String gitMinerUrl = "https://localhost:8080/repos/";
+        HttpEntity<ProjectGM> request = restTemplate.postForEntity(gitMinerUrl, project, ProjectGM.class);
+        return request.getBody();
+    }
 }

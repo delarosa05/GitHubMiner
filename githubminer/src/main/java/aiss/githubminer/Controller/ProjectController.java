@@ -8,7 +8,9 @@ import aiss.githubminer.Parsers.CommitParser;
 import aiss.githubminer.Parsers.IssueParser;
 import aiss.githubminer.Services.ProjectService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 
@@ -58,6 +60,18 @@ public class ProjectController {
         ProjectGM res = ProjectGM.of(request.getId(), request.getName(), request.getUrl(), commitGMS, issueGMS);
         System.out.println(res);
         return res;
+    }
+
+    @PostMapping("/{owner}/{repo}")
+    public ProjectGM postProject(@PathVariable String owner, @PathVariable String repo,
+                                 @RequestParam(defaultValue = "2") int sinceCommits,
+                                 @RequestParam(defaultValue = "20") int sinceIssues,
+                                 @RequestParam(defaultValue = "2") int maxPages) {
+        System.out.println("Posting project");
+        ProjectGM request = getProject(owner, repo, sinceCommits, sinceIssues, maxPages);
+        return ProjectService.postProject(request);
+
+
     }
 
 }
