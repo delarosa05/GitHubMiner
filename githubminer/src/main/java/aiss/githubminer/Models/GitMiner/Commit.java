@@ -1,10 +1,8 @@
 package aiss.githubminer.Models.GitMiner;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Commit {
-    @JsonIgnoreProperties(ignoreUnknown = true)
     @JsonProperty("id")
     private String id;
     @JsonProperty("title")

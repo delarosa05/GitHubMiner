@@ -1,13 +1,11 @@
 package aiss.githubminer.Models.GitMiner;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Project {
-    @JsonIgnoreProperties(ignoreUnknown = true)
 
     @JsonProperty("id")
     public String id;
