@@ -11,12 +11,14 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@Tag(name = "Github miner", description = "Github miner management API")
 @RestController
 @RequestMapping("/github")
 public class ProjectController {
@@ -46,7 +48,7 @@ public class ProjectController {
         // Parsear commits a formato GitMiner
         List<Commit> commitGMS;
         try {
-            commitGMS = CommitParser.parseCommit(owner, repo, sinceCommits);
+            commitGMS = CommitParser.parseCommit(owner, repo, sinceCommits, maxPages);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error parsing commits", e);
         }
@@ -54,7 +56,7 @@ public class ProjectController {
         // Parsear issues a formato GitMiner
         List<Issue> issueGMS;
         try {
-            issueGMS = IssueParser.parseIssue(owner, repo, sinceIssues);
+            issueGMS = IssueParser.parseIssue(owner, repo, sinceIssues, maxPages);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error parsing issues", e);
         }

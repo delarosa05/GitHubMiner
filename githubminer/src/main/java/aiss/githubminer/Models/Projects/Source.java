@@ -4,101 +4,12 @@ package aiss.githubminer.Models.Projects;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import com.fasterxml.jackson.annotation.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "id",
-    "node_id",
-    "name",
-    "full_name",
-    "owner",
-    "private",
-    "html_url",
-    "description",
-    "fork",
-    "url",
-    "archive_url",
-    "assignees_url",
-    "blobs_url",
-    "branches_url",
-    "collaborators_url",
-    "comments_url",
-    "commits_url",
-    "compare_url",
-    "contents_url",
-    "contributors_url",
-    "deployments_url",
-    "downloads_url",
-    "events_url",
-    "forks_url",
-    "git_commits_url",
-    "git_refs_url",
-    "git_tags_url",
-    "git_url",
-    "issue_comment_url",
-    "issue_events_url",
-    "issues_url",
-    "keys_url",
-    "labels_url",
-    "languages_url",
-    "merges_url",
-    "milestones_url",
-    "notifications_url",
-    "pulls_url",
-    "releases_url",
-    "ssh_url",
-    "stargazers_url",
-    "statuses_url",
-    "subscribers_url",
-    "subscription_url",
-    "tags_url",
-    "teams_url",
-    "trees_url",
-    "clone_url",
-    "mirror_url",
-    "hooks_url",
-    "svn_url",
-    "homepage",
-    "forks_count",
-    "stargazers_count",
-    "watchers_count",
-    "size",
-    "default_branch",
-    "open_issues_count",
-    "is_template",
-    "topics",
-    "has_issues",
-    "has_projects",
-    "has_wiki",
-    "has_pages",
-    "has_downloads",
-    "archived",
-    "disabled",
-    "visibility",
-    "pushed_at",
-    "created_at",
-    "updated_at",
-    "permissions",
-    "allow_rebase_merge",
-    "temp_clone_token",
-    "allow_squash_merge",
-    "allow_auto_merge",
-    "delete_branch_on_merge",
-    "allow_merge_commit",
-    "subscribers_count",
-    "network_count",
-    "license",
-    "forks",
-    "open_issues",
-    "watchers",
-    "security_and_analysis"
-})
+@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class Source {
 
     @JsonProperty("id")

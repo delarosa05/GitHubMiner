@@ -3,26 +3,11 @@ package aiss.githubminer.Models.Comments;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "id",
-        "node_id",
-        "url",
-        "html_url",
-        "body",
-        "user",
-        "created_at",
-        "updated_at",
-        "issue_url",
-        "author_association"
-})
+@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class Comment {
 
     @JsonProperty("id")

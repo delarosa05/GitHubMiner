@@ -11,12 +11,12 @@ import java.util.List;
 
 public class CommitParser {
 
-    public static List<Commit> parseCommit(String owner, String repo, int sinceCommits) {
+    public static List<Commit> parseCommit(String owner, String repo, int sinceCommits, int maxpages) {
         List<Commit> commitsGM = new ArrayList<>();
 
         // Calcular la fecha límite restando los días del sinceCommits
         ZonedDateTime limite = ZonedDateTime.now(ZoneOffset.UTC).minusDays(sinceCommits);  // Usamos UTC aquí
-        aiss.githubminer.Models.Commits.Commit[] commits = CommitService.getAllCommits(owner, repo);
+        aiss.githubminer.Models.Commits.Commit[] commits = CommitService.getAllCommits(owner, repo, maxpages);
         System.out.println("Number of commits fetched: " + commits.length);
 
         for (aiss.githubminer.Models.Commits.Commit commit : commits) {

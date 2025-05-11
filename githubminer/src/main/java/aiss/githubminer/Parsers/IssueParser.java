@@ -18,11 +18,11 @@ import java.util.stream.Collectors;
 public class IssueParser {
 
 
-    public static List<Issue> parseIssue(String owner, String repo, int sinceDays) {
+    public static List<Issue> parseIssue(String owner, String repo, int sinceDays, int maxPages) {
 
         List<Issue> issues = new ArrayList<>();
         try{
-            aiss.githubminer.Models.Issues.Issue[] allIssues = IssueService.getIssues(owner, repo);
+            aiss.githubminer.Models.Issues.Issue[] allIssues = IssueService.getIssues(owner, repo, maxPages);
             ZonedDateTime limite = ZonedDateTime.now(ZoneOffset.UTC).minusDays(sinceDays);  // Usamos UTC aquí
 
             // Verificar si allIssues es null o vacío

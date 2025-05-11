@@ -1,10 +1,12 @@
 package aiss.githubminer.Models.GitMiner;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
 public class Issue {
+    @JsonIgnoreProperties(ignoreUnknown = true)
 
     @JsonProperty("id")
     private String id;

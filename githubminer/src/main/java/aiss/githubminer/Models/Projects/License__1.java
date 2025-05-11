@@ -3,21 +3,12 @@ package aiss.githubminer.Models.Projects;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import com.fasterxml.jackson.annotation.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "key",
-    "name",
-    "spdx_id",
-    "url",
-    "node_id"
-})
+@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class License__1 {
 
     @JsonProperty("key")

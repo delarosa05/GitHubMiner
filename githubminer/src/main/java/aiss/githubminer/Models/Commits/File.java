@@ -5,14 +5,8 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonValue;
+
+import com.fasterxml.jackson.annotation.*;
 
 
 /**
@@ -22,19 +16,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "sha",
-    "filename",
-    "status",
-    "additions",
-    "deletions",
-    "changes",
-    "blob_url",
-    "raw_url",
-    "contents_url",
-    "patch",
-    "previous_filename"
-})
+@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class File {
 
     /**

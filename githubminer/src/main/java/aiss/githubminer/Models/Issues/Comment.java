@@ -4,43 +4,12 @@ package aiss.githubminer.Models.Issues;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import com.fasterxml.jackson.annotation.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "id",
-    "node_id",
-    "url",
-    "repository_url",
-    "labels_url",
-    "comments_url",
-    "events_url",
-    "html_url",
-    "number",
-    "state",
-    "title",
-    "body",
-    "user",
-    "labels",
-    "assignee",
-    "assignees",
-    "milestone",
-    "locked",
-    "active_lock_reason",
-    "comments",
-    "pull_request",
-    "closed_at",
-    "created_at",
-    "updated_at",
-    "closed_by",
-    "author_association",
-    "state_reason"
-})
+@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class Comment {
 
     @JsonProperty("id")

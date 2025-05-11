@@ -7,9 +7,8 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
+@JsonIgnoreProperties(ignoreUnknown = true)
 
-})
 public class Author {
     @JsonProperty("name")
     private String name;

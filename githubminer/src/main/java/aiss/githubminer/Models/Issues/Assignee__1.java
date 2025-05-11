@@ -3,34 +3,12 @@ package aiss.githubminer.Models.Issues;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import com.fasterxml.jackson.annotation.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "login",
-    "id",
-    "node_id",
-    "avatar_url",
-    "gravatar_id",
-    "url",
-    "html_url",
-    "followers_url",
-    "following_url",
-    "gists_url",
-    "starred_url",
-    "subscriptions_url",
-    "organizations_url",
-    "repos_url",
-    "events_url",
-    "received_events_url",
-    "type",
-    "site_admin"
-})
+@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class Assignee__1 {
 
     @JsonProperty("login")
