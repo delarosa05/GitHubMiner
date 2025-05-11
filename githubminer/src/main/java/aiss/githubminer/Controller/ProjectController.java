@@ -7,6 +7,7 @@ import aiss.githubminer.Parsers.CommitParser;
 import aiss.githubminer.Parsers.IssueParser;
 import aiss.githubminer.Services.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,7 +27,7 @@ public class ProjectController {
     // Endpoint GET para obtener un proyecto desde GitHub y convertirlo a formato GitMiner
     @Operation(summary = "Obtiene proyecto parseado",
             description = "Devuelve un Proyecto de GitHub en formato GitMiner",
-            tags = {"projects", "get"})
+            tags = {"Github miner", "get"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Project.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema(), mediaType = "application/json")} ),
@@ -34,11 +35,11 @@ public class ProjectController {
     })
     @GetMapping("/{owner}/{repo}")
     @ResponseStatus(HttpStatus.OK)
-    public Project getProject(@PathVariable String owner,
-                              @PathVariable String repo,
-                              @RequestParam(defaultValue = "2") int sinceCommits,
-                              @RequestParam(defaultValue = "20") int sinceIssues,
-                              @RequestParam(defaultValue = "2") int maxPages) {
+    public Project getProject(@Parameter(description = "owner to be retrieved") @PathVariable String owner,
+                              @Parameter(description = "repo to be retrieved") @PathVariable String repo,
+                              @Parameter(description = "sinceCommits to be filtered") @RequestParam(defaultValue = "2") int sinceCommits,
+                              @Parameter(description = "sinceIssues to be filtered") @RequestParam(defaultValue = "20") int sinceIssues,
+                              @Parameter(description = "maxPages to be retrieved") @RequestParam(defaultValue = "2") int maxPages) {
 
         aiss.githubminer.Models.Projects.Project request = ProjectService.getProject(owner, repo);
         if (request == null) {
@@ -66,18 +67,19 @@ public class ProjectController {
 
     @Operation(summary = "Publica proyecto parseado",
             description = "Envía un Proyecto parseado a la API de GitMiner",
-            tags = {"projects", "post"})
+            tags = {"Github miner", "post"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = Project.class), mediaType = "application/json") }),
-            @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema(), mediaType = "application/json") })
+            @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema(), mediaType = "application/json") }),
+            @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(), mediaType = "application/json")} )
     })
     @PostMapping("/{owner}/{repo}")
     @ResponseStatus(HttpStatus.CREATED)
-    public Project postProject(@PathVariable String owner,
-                               @PathVariable String repo,
-                               @RequestParam(defaultValue = "2") int sinceCommits,
-                               @RequestParam(defaultValue = "20") int sinceIssues,
-                               @RequestParam(defaultValue = "2") int maxPages) {
+    public Project postProject(@Parameter(description = "owner to be retrieved") @PathVariable String owner,
+                               @Parameter(description = "repo to be retrieved") @PathVariable String repo,
+                               @Parameter(description = "sinceCommits to be filtered") @RequestParam(defaultValue = "2") int sinceCommits,
+                               @Parameter(description = "sinceIssues to be filtered") @RequestParam(defaultValue = "20") int sinceIssues,
+                               @Parameter(description = "maxPages to be retrieved") @RequestParam(defaultValue = "2") int maxPages) {
 
         try {
             System.out.println("Posting project");
