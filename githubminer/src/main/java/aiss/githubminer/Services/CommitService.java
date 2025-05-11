@@ -22,8 +22,8 @@ public class CommitService {
         List<Commit> commits = new ArrayList<>();
         headers.set("Authorization", "Bearer " + "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");
         HttpEntity<String> request = new HttpEntity<String>(null, headers);
-        for(int i =1; i<maxPages; i++) {
-            ResponseEntity<Commit[]> response = restTemplate.exchange(url + owner + "/" + repo + "/commits", HttpMethod.GET, request, Commit[].class);
+        for(int i =1; i<=maxPages; i++) {
+            ResponseEntity<Commit[]> response = restTemplate.exchange(url + owner + "/" + repo + "/commits?page="+i, HttpMethod.GET, request, Commit[].class);
             Commit[] paginaActual = response.getBody();
             if (paginaActual == null || paginaActual.length==0) {
                 break;
