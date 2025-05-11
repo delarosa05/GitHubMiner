@@ -1,9 +1,8 @@
 package aiss.githubminer.Parsers;
 
-import aiss.githubminer.Models.GitMiner.CommentGM;
-import aiss.githubminer.Models.GitMiner.IssueGM;
-import aiss.githubminer.Models.GitMiner.UserGM;
-import aiss.githubminer.Models.Issues.Issue;
+import aiss.githubminer.Models.GitMiner.Comment;
+import aiss.githubminer.Models.GitMiner.Issue;
+import aiss.githubminer.Models.GitMiner.User;
 import aiss.githubminer.Models.Issues.Label;
 import aiss.githubminer.Services.IssueService;
 
@@ -12,7 +11,6 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,11 +18,11 @@ import java.util.stream.Collectors;
 public class IssueParser {
 
 
-    public static List<IssueGM> parseIssue(String owner, String repo, int sinceDays) {
+    public static List<Issue> parseIssue(String owner, String repo, int sinceDays) {
 
-        List<IssueGM> issues = new ArrayList<>();
+        List<Issue> issues = new ArrayList<>();
         try{
-            Issue[] allIssues = IssueService.getIssues(owner, repo);
+            aiss.githubminer.Models.Issues.Issue[] allIssues = IssueService.getIssues(owner, repo);
             ZonedDateTime limite = ZonedDateTime.now(ZoneOffset.UTC).minusDays(sinceDays);  // Usamos UTC aquí
 
             // Verificar si allIssues es null o vacío
@@ -39,7 +37,7 @@ public class IssueParser {
             DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
             String limitDateString = limitDate.format(formatter);
 
-            for (Issue issue : allIssues) {
+            for (aiss.githubminer.Models.Issues.Issue issue : allIssues) {
                 String updated_at = issue.getUpdatedAt();  // Fecha de última actualización
 
                 ZonedDateTime updatedDate = ZonedDateTime.parse(updated_at, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
@@ -62,21 +60,19 @@ public class IssueParser {
 
                 // Verificación de que las etiquetas no sean nulas o vacías
                 List<String> labels = (issue.getLabels() != null)
-                        ? issue.getLabels().stream().map(Label::toString).collect(Collectors.toList())
+                        ? issue.getLabels().stream().map(x -> x.getName()).collect(Collectors.toList())
                         : new ArrayList<>();
 
                 // Usamos el número del issue para obtener sus comentarios
                 int issueNumber = issue.getNumber();
-                List<CommentGM> comments = CommentParser.parseComment(owner, repo, issueNumber);
+                List<Comment> comments = CommentParser.parseComment(owner, repo, issueNumber);
 
                 Integer votes = ParseReaction.parseReaction(owner,repo,issueNumber);  // CAMBIAR PARA OBTENER VOTOS DE VERDAD
 
-                UserGM author = (issue.getUser() != null) ? UserParser.parseUser(issue.getUser()) : null;
-                UserGM assignee = (issue.getAssignee() != null) ? UserParser.parseAsignee(issue.getAssignee()) : null;
+                User author = (issue.getUser() != null) ? UserParser.parseUser(issue.getUser()) : null;
+                User assignee = (issue.getAssignee() != null) ? UserParser.parseAsignee(issue.getAssignee()) : null;
 
-                IssueGM res = new IssueGM(
-                        id, title, description, state, created_at, updated_at, closed_at, labels, votes, comments, author, assignee
-                );
+                Issue res = new Issue(id, title, description, state, created_at, updated_at, closed_at, labels, author, assignee, votes, comments);
                 issues.add(res);
 
             }

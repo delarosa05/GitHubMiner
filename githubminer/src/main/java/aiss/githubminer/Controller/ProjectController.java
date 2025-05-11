@@ -1,9 +1,8 @@
 package aiss.githubminer.Controller;
 
-import aiss.githubminer.Models.GitMiner.CommitGM;
-import aiss.githubminer.Models.GitMiner.IssueGM;
-import aiss.githubminer.Models.GitMiner.ProjectGM;
-import aiss.githubminer.Models.Projects.Project;
+import aiss.githubminer.Models.GitMiner.Commit;
+import aiss.githubminer.Models.GitMiner.Issue;
+import aiss.githubminer.Models.GitMiner.Project;
 import aiss.githubminer.Parsers.CommitParser;
 import aiss.githubminer.Parsers.IssueParser;
 import aiss.githubminer.Services.ProjectService;
@@ -27,25 +26,25 @@ public class ProjectController {
             description = "Devuelve un Proyecto de GitHub en formato GitMiner",
             tags = {"projects", "get"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = ProjectGM.class), mediaType = "application/json") }),
+            @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Project.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema(), mediaType = "application/json")} ),
             @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(), mediaType = "application/json")} )
     })
     @GetMapping("/{owner}/{repo}")
     @ResponseStatus(HttpStatus.OK)
-    public ProjectGM getProject(@PathVariable String owner,
-                                @PathVariable String repo,
-                                @RequestParam(defaultValue = "2") int sinceCommits,
-                                @RequestParam(defaultValue = "20") int sinceIssues,
-                                @RequestParam(defaultValue = "2") int maxPages) {
+    public Project getProject(@PathVariable String owner,
+                              @PathVariable String repo,
+                              @RequestParam(defaultValue = "2") int sinceCommits,
+                              @RequestParam(defaultValue = "20") int sinceIssues,
+                              @RequestParam(defaultValue = "2") int maxPages) {
 
-        Project request = ProjectService.getProject(owner, repo);
+        aiss.githubminer.Models.Projects.Project request = ProjectService.getProject(owner, repo);
         if (request == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Project not found");
         }
 
         // Parsear commits a formato GitMiner
-        List<CommitGM> commitGMS;
+        List<Commit> commitGMS;
         try {
             commitGMS = CommitParser.parseCommit(owner, repo, sinceCommits);
         } catch (Exception e) {
@@ -53,34 +52,34 @@ public class ProjectController {
         }
 
         // Parsear issues a formato GitMiner
-        List<IssueGM> issueGMS;
+        List<Issue> issueGMS;
         try {
             issueGMS = IssueParser.parseIssue(owner, repo, sinceIssues);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error parsing issues", e);
         }
 
-        return ProjectGM.of(request.getId(), request.getName(), request.getUrl(), commitGMS, issueGMS);
+        return new Project (request.getId().toString(), request.getName(), request.getUrl(), commitGMS, issueGMS);
     }
 
     @Operation(summary = "Publica proyecto parseado",
             description = "Envía un Proyecto parseado a la API de GitMiner",
             tags = {"projects", "post"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = ProjectGM.class), mediaType = "application/json") }),
+            @ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = Project.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema(), mediaType = "application/json") })
     })
     @PostMapping("/{owner}/{repo}")
     @ResponseStatus(HttpStatus.CREATED)
-    public ProjectGM postProject(@PathVariable String owner,
-                                 @PathVariable String repo,
-                                 @RequestParam(defaultValue = "2") int sinceCommits,
-                                 @RequestParam(defaultValue = "20") int sinceIssues,
-                                 @RequestParam(defaultValue = "2") int maxPages) {
+    public Project postProject(@PathVariable String owner,
+                               @PathVariable String repo,
+                               @RequestParam(defaultValue = "2") int sinceCommits,
+                               @RequestParam(defaultValue = "20") int sinceIssues,
+                               @RequestParam(defaultValue = "2") int maxPages) {
 
         try {
             System.out.println("Posting project");
-            ProjectGM request = getProject(owner, repo, sinceCommits, sinceIssues, maxPages);
+            Project request = getProject(owner, repo, sinceCommits, sinceIssues, maxPages);
             return ProjectService.postProject(request);
         } catch (Exception e) {
             // Captura cualquier error y lanza una excepción con estado 400

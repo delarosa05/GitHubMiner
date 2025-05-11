@@ -1,7 +1,6 @@
 package aiss.githubminer.Parsers;
 
-import aiss.githubminer.Models.Commits.Commit;
-import aiss.githubminer.Models.GitMiner.CommitGM;
+import aiss.githubminer.Models.GitMiner.Commit;
 import aiss.githubminer.Services.CommitService;
 
 import java.time.ZoneOffset;
@@ -12,15 +11,15 @@ import java.util.List;
 
 public class CommitParser {
 
-    public static List<CommitGM> parseCommit(String owner, String repo, int sinceCommits) {
-        List<CommitGM> commitsGM = new ArrayList<>();
+    public static List<Commit> parseCommit(String owner, String repo, int sinceCommits) {
+        List<Commit> commitsGM = new ArrayList<>();
 
         // Calcular la fecha límite restando los días del sinceCommits
         ZonedDateTime limite = ZonedDateTime.now(ZoneOffset.UTC).minusDays(sinceCommits);  // Usamos UTC aquí
-        Commit[] commits = CommitService.getAllCommits(owner, repo);
+        aiss.githubminer.Models.Commits.Commit[] commits = CommitService.getAllCommits(owner, repo);
         System.out.println("Number of commits fetched: " + commits.length);
 
-        for (Commit commit : commits) {
+        for (aiss.githubminer.Models.Commits.Commit commit : commits) {
 
             String authored_date = commit.getCommit().getAuthor() != null ? commit.getCommit().getAuthor().getDate() : "";
             if (authored_date.isEmpty()) {
@@ -44,7 +43,7 @@ public class CommitParser {
             String authored_email = commit.getCommit().getAuthor() != null ? commit.getCommit().getAuthor().getEmail() : "Unknown";
             String web_url = commit.getUrl().toString();
 
-            CommitGM commitGM = new CommitGM(id, title, message, authored_name, authored_email, authored_date, web_url);
+            Commit commitGM = new Commit(id, title, message, authored_name, authored_email, authored_date, web_url);
             System.out.println("CommitGM created: " + commitGM);  // Verifica si se crea correctamente
 
             commitsGM.add(commitGM);
