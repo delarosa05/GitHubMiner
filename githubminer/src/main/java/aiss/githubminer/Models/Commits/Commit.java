@@ -15,7 +15,6 @@ import com.fasterxml.jackson.annotation.*;
  * Commit
  * 
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 
 public class Commit {
