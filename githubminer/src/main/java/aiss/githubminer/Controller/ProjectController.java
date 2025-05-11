@@ -27,7 +27,7 @@ public class ProjectController {
     // Endpoint GET para obtener un proyecto desde GitHub y convertirlo a formato GitMiner
     @Operation(summary = "Obtiene proyecto parseado",
             description = "Devuelve un Proyecto de GitHub en formato GitMiner",
-            tags = {"Github miner", "get"})
+            tags = {"Github miner", "Get"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = Project.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema(), mediaType = "application/json")} ),
@@ -67,7 +67,7 @@ public class ProjectController {
 
     @Operation(summary = "Publica proyecto parseado",
             description = "Envía un Proyecto parseado a la API de GitMiner",
-            tags = {"Github miner", "post"})
+            tags = {"Github miner", "Post"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = Project.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "400", content = { @Content(schema = @Schema(), mediaType = "application/json") }),
