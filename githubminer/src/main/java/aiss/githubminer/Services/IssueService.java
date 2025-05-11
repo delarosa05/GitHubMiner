@@ -25,7 +25,9 @@ public class IssueService {
         for(int i = 1; i<= maxPages; i++) {
             ResponseEntity<Issue[]> response = restTemplate.exchange(url + owner + "/" + repo + "/issues?page="+i, HttpMethod.GET, request, Issue[].class);
             Issue[] paginaActual = response.getBody();
-            if (paginaActual == null || paginaActual.length==0) { break;}
+            if (paginaActual == null || paginaActual.length==0) {
+                break;
+            }
             issues.addAll(Arrays.stream(paginaActual).toList());
         }
         return issues.toArray(new Issue[0]); //Aunque ponga 0 se crea del tamaño adecuado internamente

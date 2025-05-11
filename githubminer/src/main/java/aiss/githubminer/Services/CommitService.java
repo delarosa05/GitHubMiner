@@ -25,7 +25,9 @@ public class CommitService {
         for(int i =1; i<maxPages; i++) {
             ResponseEntity<Commit[]> response = restTemplate.exchange(url + owner + "/" + repo + "/commits", HttpMethod.GET, request, Commit[].class);
             Commit[] paginaActual = response.getBody();
-            if (paginaActual == null || paginaActual.length==0) { break;}
+            if (paginaActual == null || paginaActual.length==0) {
+                break;
+            }
             commits.addAll(Arrays.stream(paginaActual).toList());
         }
 
